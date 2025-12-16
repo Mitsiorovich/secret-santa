@@ -1,0 +1,64 @@
+{{> nav-back}}
+
+<main class="container admin-page">
+  <h2>🛡 Διαχείριση Secret Santa</h2>
+
+  <p class="subtitle">
+    Συνολικές συμμετοχές:
+    <strong>{{total}}</strong><br>
+    Υπόλοιπες κάρτες:
+    <strong>{{remainingMe}}</strong> (Ποιος είσαι),
+    <strong>{{remainingTarget}}</strong> (Για ποιον ψωνίζεις)
+  </p>
+
+  <button id="export-pdf" style="margin-bottom:1rem;">
+    📄 Export σε PDF
+  </button>
+
+  <div id="admin-export">
+    <div class="admin-table-container"> {{#if total}}
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Κωδικός</th>
+            <th>Όνομα</th>
+            <th>Είναι</th>
+            <th>Ψωνίζει για</th>
+            <th class="actions">Ενέργεια</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {{#each assignments}}
+            <tr>
+              <td data-label="Κωδικός">
+                <code>{{code}}</code>
+              </td>
+
+              <td data-label="Όνομα">
+                {{name}}
+              </td>
+
+              <td data-label="Είναι">
+                {{me.name}}
+              </td>
+
+              <td data-label="Ψωνίζει για">
+                {{target.name}}
+              </td>
+
+              <td data-label="Ενέργεια" class="actions">
+                <button class="danger" data-code="{{code}}">
+                  🗑 Διαγραφή
+                </button>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{else}}
+      <p class="empty">Δεν υπάρχουν ακόμη καταχωρήσεις.</p>
+    {{/if}}</div>
+   
+  </div>
+</main>

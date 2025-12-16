@@ -1,0 +1,24 @@
+<!-- MISSION PAGE -->
+{{> nav-back}}
+<main>
+  <h2>🔐 Ανάκτηση Μυστικής Αποστολής</h2>
+  <p class="subtitle">
+    Έχεις ήδη συμμετάσχει; Βάλε τον μυστικό σου κωδικό για να δεις ποια είναι η αποστολή σου! 🎁
+  </p>
+  <form id="mission-form">
+    <input name="code" placeholder="Π.χ. ABC123" required>
+    <button>🔍 Ανάκτηση αποστολής</button>
+  </form>
+  <div id="result"></div>
+</main>
+
+<!-- INVALID CODE MODAL -->
+<div id="invalid-code-modal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-body" style="text-align:center;">
+      <h3>🎅 Ωχ όχι!</h3>
+      <p>Αυτός ο μαγικός κωδικός δεν υπάρχει στη λίστα του Άγιου Βασίλη. Δοκίμασε ξανά!</p>
+      <button id="invalid-code-ok">Εντάξει</button>
+    </div>
+  </div>
+</div>

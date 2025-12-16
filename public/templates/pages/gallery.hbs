@@ -1,0 +1,39 @@
+<!-- GALLERY PAGE -->
+{{> nav-back}}
+<main class="container">
+  <h2>🎄 Gallery Χαρακτήρων</h2>
+  <p class="subtitle">
+    Γνώρισε όλους τους μαγικούς χαρακτήρες που θα συμμετέχουν στο Secret Santa! 
+    Κάθε ένας έχει τη δική του ιστορία. Πάτησε πάνω σε μία κάρτα για να μάθεις περισσότερα! ✨
+  </p>
+  {{#if characters.length}}
+    <div class="gallery-grid">
+      {{#each characters}}
+        <div class="gallery-card" data-id="{{id}}">
+          <img src="{{image}}" alt="{{name}}" loading="lazy">
+          <h3>{{name}}</h3>
+          <div class="location">📍 {{location}}</div>
+          <p>{{description}}</p>
+        </div>
+      {{/each}}
+    </div>
+  {{else}}
+    <p class="empty">Δεν βρέθηκαν χαρακτήρες. Η μαγεία δεν έχει ξεκινήσει ακόμα! 🎅</p>
+  {{/if}}
+</main>
+
+<!-- CARD PREVIEW MODAL -->
+<div id="card-preview-modal" class="modal hidden">
+  <div class="modal-content">
+    <button id="preview-close" aria-label="Κλείσιμο">✕</button>
+    <div class="modal-body">
+      <img id="preview-img" alt="Character preview">
+      <h3 id="preview-name"></h3>
+      <div class="location">
+        📍 <span id="preview-location"></span>
+      </div>
+      <p id="preview-description"></p>
+      <button id="preview-close-secondary">Κλείσιμο</button>
+    </div>
+  </div>
+</div>

@@ -2,16 +2,15 @@
 <html lang="el">
 <head>
   <meta charset="UTF-8">
+  <title>🎄 Secret Santa (Luben Edition)</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
-  >
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/mobile.css">
   <style>
 /* customizable snowflake styling */
 .snowflake {
@@ -65,95 +64,22 @@
 </head>
 
 <body class="index-page">
+  <div id="app"></div>
 
-<!-- TOP NAVIGATION -->
-<nav class="container-fluid index-nav">
-  <ul>
-    <li><strong>🎄 Secret Santa</strong></li>
-  </ul>
-  <ul>
-    <li>
-      <a href="/mission" class="secondary">Ξέχασα την αποστολή μου</a>
-    </li>
-    <li>
-      <a href="/admin-login">Admin</a>
-    </li>
-  </ul>
-</nav>
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<!-- MAIN CONTENT -->
-<main>
-  <h1>Καλώς ήρθες</h1>
-  <p class="subtitle">
-    Πληκτρολόγησε το όνομά σου για να ξεκινήσεις
-  </p>
+  <script src="/js/router.js"></script>
+  <script src="/js/api.js"></script>
 
-  <form action="/start" method="POST">
-    <input
-      name="name"
-      placeholder="Το όνομά σου"
-      required
-      autofocus
-    >
-    <button>Ξεκίνα</button>
-  </form>
-</main>
+  <script src="/js/global.js"></script>
 
-<!-- 🎵 BACKGROUND MUSIC -->
-<audio id="bg-music" preload="auto" loop>
-  <source src="/audio/christmas.mp3" type="audio/mpeg">
-</audio>
-
-<!-- 🎵 MINI MUSIC PLAYER -->
-<div id="music-player" class="music-player hidden">
-  <button id="music-toggle" aria-label="Music toggle">🎵</button>
-</div>
-
-<script>
-  const music = document.getElementById("bg-music");
-  const player = document.getElementById("music-player");
-  const toggleBtn = document.getElementById("music-toggle");
-
-  let musicStarted = false;
-
-  function startMusicOnce() {
-    if (musicStarted) return;
-
-    music.volume = 0.25;
-    music.play()
-      .then(() => {
-        musicStarted = true;
-        player.classList.remove("hidden");
-        player.classList.add("playing");
-        console.log("🎄 Music started");
-      })
-      .catch(err => {
-        console.log("❌ Music blocked:", err);
-      });
-
-    // αφαιρούμε το listener για πάντα
-    document.removeEventListener("click", startMusicOnce);
-  }
-
-  // ✅ ΠΡΩΤΟ click οπουδήποτε στη σελίδα
-  document.addEventListener("click", startMusicOnce);
-
-  // ⏯ Play / Pause toggle
-  toggleBtn.addEventListener("click", e => {
-    e.stopPropagation();
-
-    if (music.paused) {
-      music.play().catch(() => {});
-      toggleBtn.textContent = "🎵";
-      player.classList.add("playing");
-    } else {
-      music.pause();
-      toggleBtn.textContent = "🔇";
-      player.classList.remove("playing");
-    }
-  });
-</script>
-
-
+  <script src="/js/pages/home.js"></script>
+  <script src="/js/pages/pick.js"></script>
+  <script src="/js/pages/result.js"></script>
+  <script src="/js/pages/mission.js"></script>
+  <script src="/js/pages/admin-login.js"></script>
+  <script src="/js/pages/admin.js"></script>
+  <script src="/js/pages/gallery.js"></script>
 </body>
 </html>

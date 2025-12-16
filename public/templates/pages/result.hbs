@@ -1,0 +1,34 @@
+<!-- RESULT PAGE -->
+{{> nav-back}}
+<main>
+  <h2>🎁 Η Μυστική σου Αποστολή!</h2>
+  <p class="subtitle">
+    Κράτησε αυτές τις πληροφορίες μυστικές! Μόνο εσύ ξέρεις την αλήθεια! 🤫✨
+  </p>
+  
+  <p><strong>🎭 Το όνομά σου:</strong> {{data.name}}</p>
+  <p><strong>✨ Η ταυτότητά σου:</strong> {{data.me.name}}</p>
+  <p><strong>🎅 Ψωνίζεις για:</strong> {{data.target.name}}</p>
+  
+  <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem;">
+    <a href="#/gallery" class="gallery-hint-link" style="
+      color: var(--christmas-green);
+      text-decoration: none;
+      opacity: 0.85;
+      transition: all 0.3s ease;
+      position: relative;
+      animation: shine 3s ease-in-out infinite;
+    ">
+      Κάνε κλικ εδώ για να θυμηθείς τους χαρακτήρες!
+    </a>
+  </p>
+  
+  <hr>
+  
+  <p class="subtitle">
+    🔐 Ο μυστικός σου κωδικός: <strong>{{code}}</strong>
+  </p>
+  <p style="font-size: 0.9rem; opacity: 0.85; text-align: center; margin-top: 1rem;">
+    Κράτησε τον κωδικό σου ασφαλή! Θα τον χρειαστείς για να δεις ξανά την αποστολή σου! 🎄
+  </p>
+</main>

@@ -1,0 +1,95 @@
+<!-- PICK PAGE -->
+{{> nav-back}}
+<main class="pick-layout">
+  <h2>🎄 Γεια σου {{name}}! 👋</h2>
+  <p class="subtitle">
+    Πάτησε στις κάρτες για να ανακαλύψεις την ταυτότητά σου και για ποιον θα ψωνίσεις φέτος! 🎁
+  </p>
+  <div class="cards">
+    <!-- ME CARD -->
+    <div class="card" id="me">
+      <div class="card-inner">
+        <div class="card-front">
+          🎭
+          <small>Ποιος είσαι</small>
+        </div>
+        <div class="card-back"></div>
+      </div>
+    </div>
+    <!-- TARGET CARD -->
+    <div class="card" id="target">
+      <div class="card-inner">
+        <div class="card-front">
+          🎁
+          <small>Για ποιον ψωνίζεις</small>
+        </div>
+        <div class="card-back"></div>
+      </div>
+    </div>
+  </div>
+  <button id="finish" disabled>
+    ✨ Αποδοχή αποστολής
+  </button>
+</main>
+
+<!-- SUCCESS MODAL -->
+<div id="success-modal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-body" style="text-align:center;">
+      <h3>🎅 Μπράβο! Η χριστουγεννιάτικη αποστολή σου ξεκινά!</h3>
+      <p>Η κλήρωση ολοκληρώθηκε και το μυστικό αποκαλύφθηκε… Τώρα ξέρεις ποιον θα γεμίσεις χαμόγελα αυτά τα Χριστούγεννα !!!🎄💫</p>
+      <button id="success-continue">🎁 Δες την αποστολή σου</button>
+    </div>
+  </div>
+</div>
+
+<!-- NO CARDS MODAL -->
+<div id="no-cards-modal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-body" style="text-align:center;">
+      <h3>🎅 Ουπς! Οι κάρτες τελείωσαν!</h3>
+      <p>Όλοι οι χαρακτήρες έχουν ήδη βρει το ταίρι τους! Η μαγεία του Secret Santa είναι πλήρης! ✨</p>
+      <button id="no-cards-ok">Κατάλαβα</button>
+    </div>
+  </div>
+</div>
+
+<!-- SAME PERSON MODAL -->
+<div id="same-person-modal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-body" style="text-align:center;">
+      <h3>🎅 Χο χο χο! Όχι τόσο γρήγορα!</h3>
+      <p>Ο Άγιος Βασίλης λέει όχι! Δεν μπορείς να κάνεις δώρο στον εαυτό σου - αυτό δεν είναι στο πνεύμα των Χριστουγέννων! 🎄 Δοκίμασε ξανά!</p>
+      <button id="same-person-ok">Εντάξει, καταλαβαίνω! 😊</button>
+    </div>
+  </div>
+</div>
+
+<!-- DUPLICATE NAME MODAL -->
+<div id="duplicate-name-modal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-body" style="text-align:center;">
+      <h3>🎄 Αυτό το όνομα υπάρχει ήδη!</h3>
+      <p>Κάποιος με αυτό το όνομα έχει ήδη ξεκινήσει την περιπέτεια! Κάθε συμμετέχων πρέπει να είναι μοναδικός! ✨</p>
+      <button id="duplicate-name-ok">Θα δοκιμάσω άλλο όνομα</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARD PREVIEW MODAL -->
+<div id="card-preview-modal" class="modal hidden">
+  <div class="modal-content">
+    <button id="preview-close" aria-label="Κλείσιμο">✕</button>
+    <div class="modal-body">
+      <img id="preview-img" src="" alt="">
+      <h3 id="preview-name"></h3>
+      <div class="location">
+        📍 <span id="preview-location"></span>
+      </div>
+      <p id="preview-description"></p>
+      <button id="preview-close-btn">Κλείσιμο</button>
+    </div>
+  </div>
+</div>
+
+

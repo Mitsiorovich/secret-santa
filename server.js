@@ -6,14 +6,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const ADMIN_PASSWORD = "j";
 
-/* ---------- EXPRESS ---------- */
-
-app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static("public"));
-
-/* ---------- DATA ---------- */
+app.use(express.static(path.join(__dirname, "public")));
 
 const DATA_FILE = path.join(__dirname, "data", "assignments.json");
 
@@ -36,7 +31,7 @@ function randomCode() {
 }
 
 /* ---------- CHARACTERS ---------- */
-
+/** PASTE YOUR FULL ORIGINAL ARRAY HERE (unchanged) */
 const characters = [
   {
     id: 1,
@@ -173,20 +168,23 @@ function availableCharacters(assignments, type) {
   return characters.filter(c => !used.has(c.id));
 }
 
-/* ---------- ROUTES ---------- */
+/* ======================================================
+   API ROUTES
+   ====================================================== */
 
-// INDEX
-app.get("/", (req, res) => {
-  res.render("index");
+app.get("/api/characters", (req, res) => {
+  res.json(characters);
 });
 
-// START
-app.post("/start", (req, res) => {
-  res.render("pick", { name: req.body.name });
+// START (optional validation hook)
+app.post("/api/start", (req, res) => {
+  const { name } = req.body;
+  if (!name) return res.status(400).json({ error: "Missing name" });
+  res.json({ name });
 });
 
-// DRAW (ΜΟΝΟ διαθέσιμες)
-app.get("/draw", (req, res) => {
+// DRAW (only available)
+app.get("/api/draw", (req, res) => {
   const type = req.query.type;
   if (!["me", "target"].includes(type)) {
     return res.status(400).json({ error: "Invalid type" });
@@ -204,40 +202,38 @@ app.get("/draw", (req, res) => {
   res.json(pool[Math.floor(Math.random() * pool.length)]);
 });
 
-// SAVE
-app.post("/save", (req, res) => {
+// SAVE (full original rules: unique name, no self, race-condition check)
+app.post("/api/save", (req, res) => {
   const assignments = readAssignments();
   const { name, me, target } = req.body;
 
   if (!name || !me || !target) {
-    return res.status(400).send("Μη έγκυρα δεδομένα.");
+    return res.status(400).json({ error: "Μη έγκυρα δεδομένα." });
   }
 
-  // ❌ ίδιο username
-  const names = Object.values(assignments).map(a =>
-    a.name.toLowerCase()
-  );
-  if (names.includes(name.toLowerCase())) {
-    return res
-      .status(409)
-      .send("Υπάρχει ήδη συμμετοχή με αυτό το όνομα.");
+  // ❌ unique player name (case-insensitive)
+  const names = Object.values(assignments).map(a => a.name.toLowerCase());
+  if (names.includes(String(name).toLowerCase())) {
+    return res.status(409).json({
+      error: "Υπάρχει ήδη συμμετοχή με αυτό το όνομα."
+    });
   }
 
-  // ❌ ίδιος χαρακτήρας
+  // ❌ cannot buy for yourself
   if (me.id === target.id) {
-    return res
-      .status(400)
-      .send("Δεν μπορείς να αγοράσεις δώρο στον εαυτό σου.");
+    return res.status(400).json({
+      error: "Δεν μπορείς να αγοράσεις δώρο στον εαυτό σου."
+    });
   }
 
-  // ❌ race condition
+  // ❌ race condition (server authoritative)
   if (
     usedIds(assignments, "me").includes(me.id) ||
     usedIds(assignments, "target").includes(target.id)
   ) {
-    return res
-      .status(409)
-      .send("Κάποια κάρτα δεν είναι πλέον διαθέσιμη.");
+    return res.status(409).json({
+      error: "Κάποια κάρτα δεν είναι πλέον διαθέσιμη."
+    });
   }
 
   const code = randomCode();
@@ -250,105 +246,84 @@ app.post("/save", (req, res) => {
   };
 
   writeAssignments(assignments);
-  res.redirect(`/result/${code}`);
+
+  res.json({ code, data: assignments[code] });
 });
 
-// RESULT  ✅ (ΑΥΤΟ ΕΛΕΙΠΕ)
-app.get("/result/:code", (req, res) => {
+// RESULT (lookup by code)
+app.get("/api/result/:code", (req, res) => {
   const assignments = readAssignments();
   const data = assignments[req.params.code];
 
   if (!data) {
-    return res.status(404).send("Μη έγκυρος κωδικός.");
+    return res.status(404).json({ error: "Μη έγκυρος κωδικός." });
   }
 
-  res.render("result", {
-    data,
-    code: req.params.code
-  });
+  res.json({ code: req.params.code, data });
 });
 
-// RECOVERY
-app.get("/mission", (req, res) => {
-  res.render("mission", { result: null });
-});
-
-app.post("/mission", (req, res) => {
+// RECOVERY (by code)
+app.post("/api/mission", (req, res) => {
   const assignments = readAssignments();
-  res.render("mission", {
-    result: assignments[req.body.code] || null
-  });
+  const result = assignments[req.body.code];
+
+  if (!result) {
+    return res.status(404).json({ error: "Μη έγκυρος κωδικός." });
+  }
+
+  res.json(result);
 });
 
 // ADMIN LOGIN
-app.get("/admin-login", (req, res) => {
-  res.render("admin-login", { error: null });
-});
-
-app.post("/admin-login", (req, res) => {
+app.post("/api/admin/login", (req, res) => {
   if (req.body.password !== ADMIN_PASSWORD) {
-    return res.render("admin-login", {
-      error: "Λάθος κωδικός."
-    });
+    return res.status(401).json({ error: "Λάθος κωδικός." });
   }
-  res.redirect(`/admin?token=${ADMIN_PASSWORD}`);
+  res.json({ token: ADMIN_PASSWORD });
 });
 
-// ADMIN
-app.get("/admin", (req, res) => {
+app.get("/api/admin", (req, res) => {
   if (req.query.token !== ADMIN_PASSWORD) {
-    return res.status(403).send("Access denied");
+    return res.status(403).json({ error: "Access denied" });
   }
 
-  const assignments = readAssignments();
+  const assignmentsObj = readAssignments();
 
-  res.render("admin", {
+  // 🔑 CONVERT OBJECT → ARRAY HERE (ONCE, CORRECTLY)
+  const assignments = Object.entries(assignmentsObj).map(
+    ([code, value]) => ({
+      code,
+      ...value
+    })
+  );
+
+  res.json({
     assignments,
-    remainingMe: availableCharacters(assignments, "me").length,
-    remainingTarget: availableCharacters(assignments, "target").length,
-    token: ADMIN_PASSWORD
+    total: assignments.length,
+    remainingMe: availableCharacters(assignmentsObj, "me").length,
+    remainingTarget: availableCharacters(assignmentsObj, "target").length
   });
 });
 
-// ADMIN DELETE
-app.post("/admin/delete/:code", (req, res) => {
+
+// ADMIN DELETE (frees cards)
+app.delete("/api/admin/:code", (req, res) => {
   if (req.query.token !== ADMIN_PASSWORD) {
-    return res.status(403).send("Access denied");
+    return res.status(403).json({ error: "Access denied" });
   }
 
   const assignments = readAssignments();
   delete assignments[req.params.code];
   writeAssignments(assignments);
 
-  res.redirect(`/admin?token=${ADMIN_PASSWORD}`);
+  res.json({ success: true });
 });
 
-/* ---------- SERVER ---------- */
+/* ---------- SPA FALLBACK (Express 4/5 safe) ---------- */
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 app.listen(PORT, () => {
   console.log(`🎄 Secret Santa running at http://localhost:${PORT}`);
-});
-
-app.get("/check-image-types", (req, res) => {
-  const results = characters.map(c => {
-    const imagePath = path.join(__dirname, "public", c.image);
-    const buffer = fs.readFileSync(imagePath);
-    
-    // Check file signature (magic bytes)
-    let actualType = "unknown";
-    if (buffer[0] === 0xFF && buffer[1] === 0xD8) {
-      actualType = "JPEG";
-    } else if (buffer[0] === 0x89 && buffer[1] === 0x50) {
-      actualType = "PNG";
-    }
-    
-    return {
-      name: c.name,
-      declaredExt: path.extname(c.image),
-      actualType: actualType,
-      size: buffer.length
-    };
-  });
-  
-  res.json(results);
 });
