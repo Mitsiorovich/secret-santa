@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
+  >
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+/* customizable snowflake styling */
+.snowflake {
+  color: #fff;
+  font-size: 1em;
+  font-family: Arial, sans-serif;
+  text-shadow: 0 0 5px #000;
+}
+
+.snowflake,.snowflake .inner{animation-iteration-count:infinite;animation-play-state:running}@keyframes snowflakes-fall{0%{transform:translateY(0)}100%{transform:translateY(110vh)}}@keyframes snowflakes-shake{0%,100%{transform:translateX(0)}50%{transform:translateX(80px)}}.snowflake{position:fixed;top:-10%;z-index:9999;-webkit-user-select:none;user-select:none;cursor:default;pointer-events:none;animation-name:snowflakes-shake;animation-duration:3s;animation-timing-function:ease-in-out}.snowflake .inner{animation-duration:10s;animation-name:snowflakes-fall;animation-timing-function:linear}.snowflake:nth-of-type(0){left:1%;animation-delay:0s}.snowflake:nth-of-type(0) .inner{animation-delay:0s}.snowflake:first-of-type{left:10%;animation-delay:1s}.snowflake:first-of-type .inner,.snowflake:nth-of-type(8) .inner{animation-delay:1s}.snowflake:nth-of-type(2){left:20%;animation-delay:.5s}.snowflake:nth-of-type(2) .inner,.snowflake:nth-of-type(6) .inner{animation-delay:6s}.snowflake:nth-of-type(3){left:30%;animation-delay:2s}.snowflake:nth-of-type(11) .inner,.snowflake:nth-of-type(3) .inner{animation-delay:4s}.snowflake:nth-of-type(4){left:40%;animation-delay:2s}.snowflake:nth-of-type(10) .inner,.snowflake:nth-of-type(4) .inner{animation-delay:2s}.snowflake:nth-of-type(5){left:50%;animation-delay:3s}.snowflake:nth-of-type(5) .inner{animation-delay:8s}.snowflake:nth-of-type(6){left:60%;animation-delay:2s}.snowflake:nth-of-type(7){left:70%;animation-delay:1s}.snowflake:nth-of-type(7) .inner{animation-delay:2.5s}.snowflake:nth-of-type(8){left:80%;animation-delay:0s}.snowflake:nth-of-type(9){left:90%;animation-delay:1.5s}.snowflake:nth-of-type(9) .inner{animation-delay:3s}.snowflake:nth-of-type(10){left:25%;animation-delay:0s}.snowflake:nth-of-type(11){left:65%;animation-delay:2.5s}
+</style>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+  <div class="snowflake">
+    <div class="inner">❅</div>
+  </div>
+</div>
+
+</head>
+
+<body class="index-page">
+
+<!-- TOP NAVIGATION -->
+<nav class="container-fluid index-nav">
+  <ul>
+    <li><strong>🎄 Secret Santa</strong></li>
+  </ul>
+  <ul>
+    <li>
+      <a href="/mission" class="secondary">Ξέχασα την αποστολή μου</a>
+    </li>
+    <li>
+      <a href="/admin-login">Admin</a>
+    </li>
+  </ul>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main>
+  <h1>Καλώς ήρθες</h1>
+  <p class="subtitle">
+    Πληκτρολόγησε το όνομά σου για να ξεκινήσεις
+  </p>
+
+  <form action="/start" method="POST">
+    <input
+      name="name"
+      placeholder="Το όνομά σου"
+      required
+      autofocus
+    >
+    <button>Ξεκίνα</button>
+  </form>
+</main>
+
+<!-- 🎵 BACKGROUND MUSIC -->
+<audio id="bg-music" preload="auto" loop>
+  <source src="/audio/christmas.mp3" type="audio/mpeg">
+</audio>
+
+<!-- 🎵 MINI MUSIC PLAYER -->
+<div id="music-player" class="music-player hidden">
+  <button id="music-toggle" aria-label="Music toggle">🎵</button>
+</div>
+
+<script>
+  const music = document.getElementById("bg-music");
+  const player = document.getElementById("music-player");
+  const toggleBtn = document.getElementById("music-toggle");
+
+  let musicStarted = false;
+
+  function startMusicOnce() {
+    if (musicStarted) return;
+
+    music.volume = 0.25;
+    music.play()
+      .then(() => {
+        musicStarted = true;
+        player.classList.remove("hidden");
+        player.classList.add("playing");
+        console.log("🎄 Music started");
+      })
+      .catch(err => {
+        console.log("❌ Music blocked:", err);
+      });
+
+    // αφαιρούμε το listener για πάντα
+    document.removeEventListener("click", startMusicOnce);
+  }
+
+  // ✅ ΠΡΩΤΟ click οπουδήποτε στη σελίδα
+  document.addEventListener("click", startMusicOnce);
+
+  // ⏯ Play / Pause toggle
+  toggleBtn.addEventListener("click", e => {
+    e.stopPropagation();
+
+    if (music.paused) {
+      music.play().catch(() => {});
+      toggleBtn.textContent = "🎵";
+      player.classList.add("playing");
+    } else {
+      music.pause();
+      toggleBtn.textContent = "🔇";
+      player.classList.remove("playing");
+    }
+  });
+</script>
+
+
+</body>
+</html>

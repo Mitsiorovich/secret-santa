@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/mobile.css">
+</head>
+
+<body class="index-page">
+
+<nav class="container-fluid index-nav">
+  <ul>
+    <li><a href="/">⬅️ Αρχική</a></li>
+  </ul>
+</nav>
+
+<main>
+  <h2>🔐 Ανάκτηση αποστολής</h2>
+  <p class="subtitle">Βάλε τον μυστικό σου κωδικό</p>
+
+  <form method="POST">
+    <input name="code" placeholder="Κωδικός ανάκτησης" required>
+    <button>Ανάκτηση</button>
+  </form>
+</main>
+
+<% if (result) { %>
+<script>
+  const missionResult = <%- JSON.stringify(result) %>;
+</script>
+<% } %>
+
+<!-- ✅ ΜΟΝΟ MODAL -->
+<div id="mission-modal" class="modal hidden">
+  <div class="modal-content">
+    <button class="close-modal">✕</button>
+    <div class="modal-body">
+      <h3>🎁 Η αποστολή σου</h3>
+
+      <p><strong>Όνομα:</strong> <span id="m-name"></span></p>
+      <p><strong>Είσαι:</strong> <span id="m-me"></span></p>
+      <p><strong>Αγοράζεις δώρο για:</strong> <span id="m-target"></span></p>
+    </div>
+  </div>
+</div>
+
+<script>
+  if (typeof missionResult !== "undefined") {
+    const modal = document.getElementById("mission-modal");
+    const closeBtn = modal.querySelector(".close-modal");
+
+    document.getElementById("m-name").textContent = missionResult.name;
+    document.getElementById("m-me").textContent = missionResult.me.name;
+    document.getElementById("m-target").textContent = missionResult.target.name;
+
+    modal.classList.remove("hidden");
+
+    closeBtn.onclick = () => modal.classList.add("hidden");
+    modal.onclick = e => {
+      if (e.target === modal) modal.classList.add("hidden");
+    };
+  }
+</script>
+
+</body>
+</html>

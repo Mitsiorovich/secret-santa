@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
+  >
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/mobile.css">
+</head>
+
+<body class="index-page">
+
+<!-- SIMPLE NAV -->
+<nav class="container-fluid index-nav">
+  <ul>
+    <li><a href="/">⬅️ Αρχική</a></li>
+  </ul>
+</nav>
+
+<main>
+  <h2>🛡 Πρόσβαση Διαχειριστή</h2>
+  <p class="subtitle">
+    Εισάγετε τον κωδικό διαχειριστή
+  </p>
+
+  <form method="POST">
+    <input
+      type="password"
+      name="password"
+      placeholder="Κωδικός διαχειριστή"
+      required
+    >
+    <button>Είσοδος</button>
+  </form>
+
+  <% if (error) { %>
+    <p style="color:#8B1E1E; margin-top:1rem;">
+      ❌ <%= error %>
+    </p>
+  <% } %>
+</main>
+
+</body>
+</html>

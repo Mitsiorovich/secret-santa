@@ -1,0 +1,160 @@
+/* =========================================================
+   MOBILE UI POLISH – SECRET SANTA
+   Applies only on small screens
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  /* ---------- GLOBAL ---------- */
+
+  body {
+    padding: 0.5rem;
+  }
+
+  main {
+    padding: 1.6rem;
+    border-radius: 22px;
+  }
+
+  h1 {
+    font-size: 1.7rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 1.4rem;
+  }
+
+  /* ---------- NAVIGATION ---------- */
+
+  nav.container-fluid {
+    padding: 0.6rem 0.8rem;
+  }
+
+  nav ul {
+    gap: 0.6rem;
+  }
+
+  nav a,
+  nav strong {
+    font-size: 0.85rem;
+  }
+
+  /* ---------- FORMS ---------- */
+
+  form {
+    gap: 0.8rem;
+  }
+
+  input {
+    font-size: 1rem;
+    padding: 0.6rem 0.9rem;
+  }
+
+  button {
+    font-size: 0.95rem;
+    padding: 0.6rem 1.2rem;
+  }
+
+  /* ---------- INDEX PAGE ---------- */
+
+  .index-page main {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .index-page form input {
+    width: 100%;
+  }
+
+  .index-page form button {
+    width: 80%;
+  }
+
+  /* ---------- PICK PAGE ---------- */
+
+  .pick-layout {
+    padding: 1.4rem;
+  }
+
+  .cards {
+    gap: 1.4rem;
+    margin: 1.8rem 0;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 300px;
+    height: 420px;
+  }
+
+  /* ---------- CARD CONTENT ---------- */
+
+  .card-back {
+    padding: 1.2rem;
+  }
+
+  .card-back h3 {
+    font-size: 1.05rem;
+  }
+
+  .card-back p {
+    font-size: 0.9rem;
+  }
+
+  /* ---------- MODALS ---------- */
+
+  .modal-content {
+    width: 95%;
+    max-height: 85vh;
+    padding: 1.4rem;
+    border-radius: 26px;
+  }
+
+  .modal-body h3 {
+    font-size: 1.2rem;
+  }
+
+  .modal-body p {
+    font-size: 0.95rem;
+  }
+
+  .close-modal {
+    width: 34px;
+    height: 34px;
+    font-size: 1rem;
+  }
+
+  /* ---------- TABLES (ADMIN) ---------- */
+
+  table {
+    font-size: 0.8rem;
+  }
+
+  table th,
+  table td {
+    padding: 0.4rem 0.5rem;
+  }
+
+  table td.actions button {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.6rem;
+  }
+
+  /* ---------- MUSIC PLAYER ---------- */
+
+  .music-player {
+    bottom: 0.8rem;
+    right: 0.8rem;
+  }
+
+  .music-player button {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/mobile.css">
+</head>
+
+<body class="index-page">
+
+<nav class="container-fluid index-nav">
+  <ul>
+    <li><a href="/">⬅️ Αρχική</a></li>
+  </ul>
+</nav>
+
+<main>
+  <h2>🎁 Η αποστολή σου</h2>
+
+  <p><strong>Όνομα:</strong> <%= data.name %></p>
+  <p><strong>Είσαι:</strong> <%= data.me.name %></p>
+  <p><strong>Ψωνίζεις δώρο για:</strong> <%= data.target.name %></p>
+
+  <hr>
+
+  <p class="subtitle">
+    🔐 Κωδικός ανάκτησης:
+    <strong><%= code %></strong>
+  </p>
+
+  <p class="subtitle">
+    Κράτησε τον κωδικό σε περίπτωση που ξεχάσεις την αποστολή σου.
+  </p>
+</main>
+
+</body>
+</html>

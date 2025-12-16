@@ -1,0 +1,535 @@
+:root {
+  --christmas-red: #8B1E1E;
+  --christmas-green: #1F7A5A;
+  --cream: #FFF9EC;
+  --gold: #FFF57E;
+  --dark: #2A1A1A;
+}
+
+/* ---------- GLOBAL ---------- */
+
+body {
+  background: radial-gradient(circle at top, #A83232, var(--christmas-red));
+  color: var(--dark);
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  min-height: 100vh;
+  margin: 0;
+}
+
+
+main {
+  background: var(--cream);
+  border-radius: 28px;
+  width: 100%;
+  max-width: 420px; /* 👈 SAME width as before */
+  padding: clamp(1.6rem, 3vw, 2.4rem);
+  box-shadow: 0 30px 60px rgba(0,0,0,.35);
+
+  margin: clamp(3rem, 8vh, 6rem) auto 0 auto;
+}
+
+main h1 {
+  margin-bottom: 0.6rem;
+}
+
+main .subtitle {
+  margin-bottom: 1.4rem;
+}
+
+form {
+  gap: 0.8rem;
+}
+
+
+h1, h2 {
+  color: var(--christmas-red);
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  margin-bottom: 2rem;
+  opacity: .8;
+}
+
+/* ---------- FORMS ---------- */
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ---------- BUTTONS ---------- */
+
+button,
+[role="button"] {
+  background: linear-gradient(
+    135deg,
+    #2FA67E,
+    var(--christmas-green)
+  );
+  border: none;
+  color: white;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: transform .2s, filter .2s;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+button:disabled {
+  opacity: .5;
+}
+
+/* ---------- PICK PAGE LAYOUT ---------- */
+
+.pick-layout {
+  max-width: 820px;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  margin: 2.5rem 0;
+}
+
+/* ---------- CARDS ---------- */
+
+.card {
+  width: 280px;
+  height: 420px;
+  perspective: 1500px;
+  cursor: pointer;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(.4,.2,.2,1);
+}
+
+.card.revealed .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  backface-visibility: hidden;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0,0,0,.25);
+}
+
+/* ---------- FRONT ---------- */
+
+.card-front {
+  background: linear-gradient(145deg, var(--christmas-red), #C0392B);
+  color: var(--gold);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 3.2rem;
+}
+
+.card-front small {
+  font-size: .9rem;
+  margin-top: .5rem;
+}
+
+/* ---------- BACK ---------- */
+
+.card-back {
+  background: var(--cream);
+  transform: rotateY(180deg);
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.card-back img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 16px;
+}
+
+.card-back h3 {
+  color: var(--christmas-green);
+  margin: .6rem 0 .3rem;
+}
+
+.card-back .location {
+  font-size: 0.8rem;
+  color: #555;
+  margin-bottom: 0.4rem;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.card-back p {
+  font-size: .95rem;
+  line-height: 1.45;
+  color: #234;
+}
+
+
+
+/* ---------- CARD META ---------- */
+
+.card-back .location {
+  font-size: 0.8rem;
+  color: #555;
+  margin-bottom: 0.4rem;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+
+/* ---------- FORM & ACTION WIDTH POLISH ---------- */
+
+form {
+  align-items: center;
+}
+
+main input {
+  width: 80%;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+main button {
+  width: 60%;
+  max-width: 220px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+/* Mobile fallback */
+@media (max-width: 480px) {
+  main input,
+  main button {
+    width: 100%;
+  }
+}
+
+/* ---------- MODAL ---------- */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: var(--cream);
+  border-radius: 32px;
+  width: 90%;
+  max-width: 520px;
+  max-height: 85vh;
+  padding: 1.8rem;
+  position: relative;
+  overflow-y: auto;
+}
+
+.modal-body img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 18px;
+}
+
+.modal-body h3 {
+  margin-top: 1rem;
+  color: var(--christmas-green);
+}
+
+.modal-body .location {
+  margin: .5rem 0 1rem;
+  font-size: .9rem;
+  opacity: .8;
+}
+
+.modal-body p {
+  line-height: 1.6;
+}
+
+/* Close button */
+.close-modal {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--christmas-green);
+  color: white;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+}
+
+/* ---------- INDEX NAV ---------- */
+
+.index-nav {
+  background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(6px);
+}
+
+.index-nav strong {
+  color: var(--cream);
+}
+
+.index-nav a {
+  color: var(--cream);
+}
+
+.index-nav a.secondary {
+  opacity: 0.9;
+}
+
+.index-nav a:hover {
+  opacity: 1;
+}
+
+/* ---------- INDEX TEXT ---------- */
+
+main h1 {
+  color: var(--christmas-red);
+}
+
+main .subtitle {
+  color: #5a2a2a;
+}
+
+/* Improve input text contrast */
+main input {
+  color: var(--dark);
+}
+
+/* ---------- NAV HOVER EFFECT ---------- */
+.index-nav {
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+}
+
+.index-nav a {
+  position: relative;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+/* Hover state */
+.index-nav a:hover {
+  background-color: var(--christmas-green);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Optional: focus (keyboard users) */
+.index-nav a:focus {
+  background-color: var(--christmas-green);
+  color: #ffffff;
+  outline: none;
+}
+/* ---------- INDEX BACKGROUND PATTERN ---------- */
+
+body.index-page {
+  background-image: url("/images/bg-pattern.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover; /* 👈 responsive, fills screen */
+  background-attachment: fixed;
+  background-color: var(--christmas-red);
+}
+
+h1, h2 {
+  font-weight: 700;
+}
+
+button {
+  font-weight: 600;
+}
+
+/* ---------- FIX EXTRA SPACE AFTER LOGIN BUTTON ---------- */
+
+form button {
+  margin-bottom: 0;
+}
+
+form {
+  margin-bottom: 0;
+}
+
+/* ---------- RESULT PAGE POLISH ---------- */
+
+main p {
+  margin-bottom: 0.9rem;
+  line-height: 1.55;
+  padding-left: 15px;
+}
+
+main p strong {
+  color: var(--christmas-green);
+  font-weight: 600;
+}
+
+/* section divider */
+main hr {
+  margin: 1.6rem 0;
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(0,0,0,0.15),
+    transparent
+  );
+}
+
+/* recovery code highlight */
+main .subtitle strong {
+  display: inline-block;
+  margin-top: 0.4rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 8px;
+  background: rgba(31, 122, 90, 0.1);
+  color: var(--christmas-green);
+  letter-spacing: 0.08em;
+}
+
+
+#message-modal .modal-body {
+  text-align: center;
+}
+
+#message-modal h3 {
+  margin-bottom: 0.6rem;
+  color: var(--christmas-red);
+}
+
+#message-modal p {
+  margin-bottom: 1.2rem;
+}
+/* ---------- ADMIN DELETE BUTTON ---------- */
+
+table form {
+  display: inline;
+}
+
+table button {
+  white-space: nowrap;
+  padding: 0.45rem 0.8rem;
+}
+
+
+#success-modal h3 {
+  color: var(--christmas-green);
+  margin-bottom: 0.6rem;
+}
+
+/* ---------- ADMIN ACTION COLUMN FIX ---------- */
+
+table th.actions,
+table td.actions {
+  width: 1%;
+  white-space: nowrap;
+}
+
+table td.actions form {
+  display: inline-flex;
+  width: 100%;
+  font-size: 10px;
+}
+
+table td.actions button {
+  white-space: nowrap;
+  padding: 0.45rem 1rem;
+}
+
+/* ---------- MINI MUSIC PLAYER ---------- */
+
+.music-player {
+  position: fixed;
+  bottom: 1.2rem;
+  right: 1.2rem;
+  z-index: 999;
+}
+
+.music-player button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+
+  background: linear-gradient(
+    135deg,
+    #2FA67E,
+    var(--christmas-green)
+  );
+
+  color: white;
+  font-size: 1.2rem;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.music-player button:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.3);
+}
+
+.music-player button:active {
+  transform: scale(0.95);
+}
+
+/* hidden until music starts */
+.music-player.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* small pulse when music is playing */
+.music-player.playing button {
+  animation: pulse 2.2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(47,166,126,0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgba(47,166,126,0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(47,166,126,0);
+  }
+}
+
